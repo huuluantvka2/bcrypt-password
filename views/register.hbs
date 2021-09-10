@@ -1,0 +1,73 @@
+<div class="container .formSignIn">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Đăng ký</h5>
+            <form action="/register" method="POST">
+              <div class="form-floating mb-3">
+                <input required type="text" class="form-control" id="floatingUsername" name="username">
+                <label for="floatingUsername">Tài khoản</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input required type="password" class="form-control" id="floatingPassword" name="password">
+                <label for="floatingPassword">Mật khẩu</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input required type="text" class="form-control" id="floatingName" name="name">
+                <label for="floatingName">Họ tên</label>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold btn-register" type="button">Đăng ký</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      let button = $('.btn-register');
+      let username = $('#floatingUsername');
+      let password = $('#floatingPassword');
+      let name = $('#floatingName');
+      button.click(() =>{
+        if(username.val() && password.val() && name.val()){
+          //gửi request tạo tk
+          const settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/register",
+            "method": "POST",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "processData": false,
+            "data": `{\n\t\"username\" : \"${username.val()}\",\n\t\"password\" : \"${password.val()}\"\n,\n\t\"name\" : \"${name.val()}\"\n}`
+          };
+          $.ajax(settings).then(res =>
+            {
+              $('#mySuccessToast').removeClass('hide').addClass('show')
+              $('#mySuccessToast .toast-body').html(`Tạo tài khoản thành công`)
+              setTimeout(() =>{$('#mySuccessToast').removeClass('show').addClass("hide")
+              $('#mySuccessToast .toast-body').html("")
+                window.location.href = '/login'
+              },1500)
+            },(err) =>{
+              
+              $('#myErrorToast').removeClass('hide').addClass('show')
+              $('#myErrorToast .toast-body').html(`Tài khoản ${username.val()} đã tồn tại!`)
+              setTimeout(() =>{$('#myErrorToast').removeClass('show').addClass("hide")
+              $('#myErrorToast .toast-body').html("")},2000)
+            }
+          );
+        }else{
+          $('#myErrorToast').removeClass('hide').addClass('show')
+          $('#myErrorToast .toast-body').html("Vui lòng nhập đầy đủ thông tin")
+          setTimeout(() =>{$('#myErrorToast').removeClass('show').addClass("hide")
+          $('#myErrorToast .toast-body').html("")},2000)
+        }
+      })
+    });
+  </script>

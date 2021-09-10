@@ -1,0 +1,14 @@
+<div class="container mt-3">
+    <h4 class="title-home"></h4>
+</div>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+      let user = JSON.parse(localStorage.getItem('loginInfo'))
+      console.log(user)
+      if(user){
+        $('.title-home').html('Chào mừng bạn đến với website')
+      }else{
+        $('.title-home').html("Vui lòng đăng nhập")
+      }
+  });
+</script>

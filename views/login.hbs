@@ -1,0 +1,68 @@
+<div class="container .formSignIn">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Đăng nhâp</h5>
+            <form action="/register" method="POST">
+              <div class="form-floating mb-3">
+                <input required type="text" class="form-control" id="floatingUsername" name="username">
+                <label for="floatingUsername">Tài khoản</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input required type="password" class="form-control" id="floatingPassword" name="password">
+                <label for="floatingPassword">Mật khẩu</label>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold btn-login" type="button">Đăng nhâp</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      let button = $('.btn-login');
+      let username = $('#floatingUsername');
+      let password = $('#floatingPassword');
+      button.click(() =>{
+        if(username.val() && password.val()){
+          //gửi request đăng nhập
+          const settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/login",
+            "method": "POST",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "processData": false,
+            "data": `{\n\t\"username\" : \"${username.val()}\",\n\t\"password\" : \"${password.val()}\"\n}`
+          };
+          $.ajax(settings).then(res =>
+            {
+              localStorage.setItem('loginInfo',JSON.stringify({_id : res.userID, name : res.name}))
+              $('#mySuccessToast').removeClass('hide').addClass('show')
+              $('#mySuccessToast .toast-body').html(`Đăng nhập thành công`)
+              setTimeout(() =>{$('#mySuccessToast').removeClass('show').addClass("hide")
+              $('#mySuccessToast .toast-body').html("")
+              window.location.href = '/'
+              },2000)
+            },(err) =>{
+              $('#myErrorToast').removeClass('hide').addClass('show')
+              $('#myErrorToast .toast-body').html(`${err.responseText}`)
+              setTimeout(() =>{$('#myErrorToast').removeClass('show').addClass("hide")
+              $('#myErrorToast .toast-body').html("")},2000)
+            }
+          );
+        }else{
+          $('#myErrorToast').removeClass('hide').addClass('show')
+          $('#myErrorToast .toast-body').html("Vui lòng nhập đầy đủ thông tin")
+          setTimeout(() =>{$('#myErrorToast').removeClass('show').addClass("hide")
+          $('#myErrorToast .toast-body').html("")},2000)
+        }
+      })
+    });
+  </script>

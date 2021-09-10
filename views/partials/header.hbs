@@ -1,0 +1,54 @@
+<header class="bg-header">
+    <nav class="navbar navbar-expand-lg bg-header-nav">
+  <div class="container">
+    <a class="navbar-brand" href="#">Nhóm...</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><i class="fas fa-water"></i></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0" style="margin-right: 40px;">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/">Trang chủ</a>
+        </li>
+        <li class="nav-item dropdown logged">
+          <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="far fa-user-circle"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a id="nameUser" class="dropdown-item" href="#">{{info.name}}</a></li>
+            <li><button onclick="signOut()" class="dropdown-item">Đăng xuất</button></li>
+          </ul>
+        </li>
+        <li class="nav-item no_logged">
+          <a class="nav-link" aria-current="page" href="/login">Đăng nhập</a>
+        </li>
+        <li class="nav-item no_logged">
+          <a class="nav-link" aria-current="page" href="/register">Đăng ký</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <div class="site-heading">
+    <h1>Bài tập lớn môn Cơ sở an toàn thông tin</h1>
+    <h4>Chủ đề : Tìm hiểu hash,salt,pepper</h4>
+  </div>
+</header>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+      let user = JSON.parse(localStorage.getItem('loginInfo'))
+      if(user){
+        $('#nameUser').html(user.name)
+        $('.logged').removeClass('hideInfo').addClass('showInfo')
+        $('.no_logged').removeClass('showInfo').addClass('hideInfo')
+      }else{
+        $('#nameUser').html("")
+        $('.no_logged').removeClass('hideInfo').addClass('showInfo')
+        $('.logged').removeClass('showInfo').addClass('hideInfo')
+      }
+  });
+  function signOut(){
+    localStorage.removeItem("loginInfo")
+    window.location.href = '/'
+  }
+</script>
