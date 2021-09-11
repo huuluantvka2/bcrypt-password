@@ -45,7 +45,9 @@ router.post('/register', (req, res, next) => {
       } else {
         bcrypt.genSalt(10, (err, salt) => {
           //mã hóa password
+          console.log('Salt được tạo: ', salt);
           bcrypt.hash(req.body.password, salt, (error, hash) => {
+            console.log('Hash: ', hash);
             if (err || error) res.status(404).json({ err: 'Lỗi mã hóa' });
             else {
               Account.create({ ...req.body, password: hash })
